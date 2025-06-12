@@ -75,6 +75,7 @@ jobs:
               echo 'version = "0.1.0"' >> pyproject.toml
               echo 'description = "Auto-generated pyproject.toml for CI"' >> pyproject.toml
               echo 'authors = ["CI Bot <ci@example.com>"]' >> pyproject.toml
+              echo 'package-mode = false' >> pyproject.toml
               echo '' >> pyproject.toml
               echo '[tool.poetry.dependencies]' >> pyproject.toml
               echo 'python = "^3.12"' >> pyproject.toml
@@ -84,7 +85,7 @@ jobs:
               echo 'requires = ["poetry-core"]' >> pyproject.toml
               echo 'build-backend = "poetry.core.masonry.api"' >> pyproject.toml
             fi
-            poetry install
+            poetry install --no-root
 
           elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
             pipenv install
@@ -92,14 +93,6 @@ jobs:
           elif [ "${{ inputs.build-tool }}" == "uv" ]; then
             uv pip install -r requirements.txt
           fi
-
-          elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
-            pipenv install
-
-          elif [ "${{ inputs.build-tool }}" == "uv" ]; then
-            uv pip install -r requirements.txt
-          fi
-
       - name: Run tests
         run: |
           if [ "${{ inputs.build-tool }}" == "poetry" ]; then
