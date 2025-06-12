@@ -1,7 +1,7 @@
 name: "Python reusable Workflow"
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       python-version:
         description: "Python version required"
