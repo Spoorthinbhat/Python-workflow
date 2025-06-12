@@ -1,0 +1,81 @@
+name: "Python reusable Workflow"
+
+on:
+  workflow_dispatch:
+    inputs:
+      python-version:
+        description: "Python version required"
+        required: true
+        default: "3.12"
+      build-tool:
+        description: "Choose the build tool: pip, poetry, uv or pipenv"
+        required: true
+        type: string
+        default: "pip"
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ inputs.python-version }}
+
+      - name: Validate inputs
+        run: |
+          echo "Validating inputs..."
+          case "${{ inputs.build-tool }}" in
+            pip|poetry|pipenv|uv) echo "Valid build tool: ${{ inputs.build-tool }}" ;;
+            *) echo "Unsupported build tool: ${{ inputs.build-tool }}" && exit 1 ;;
+          esac
+
+      - name: Set up cache path
+        run: |
+          echo "Setting up cache files"
+          case "${{ inputs.build-tool }}" in
+            pip) echo "CACHE_PATH=~/.cache/pip" >> "$GITHUB_ENV" ;;
+            poetry) echo "CACHE_PATH=~/.cache/pypoetry" >> "$GITHUB_ENV" ;;
+            pipenv) echo "CACHE_PATH=~/.cache/pipenv" >> "$GITHUB_ENV" ;;
+            uv) echo "CACHE_PATH=~/.cache/uv" >> "$GITHUB_ENV" ;;
+          esac
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CACHE_PATH }}
+          key: ${{ runner.os }}-${{ inputs.build-tool }}-${{ hashFiles('**/poetry.lock', '**/Pipfile.lock', '**/requirements.txt') }}
+
+      - name: Install Dependencies
+        run: |
+          if [ "${{ inputs.build-tool }}" == "pip" ]; then
+            pip install -r requirements.txt
+          elif [ "${{ inputs.build-tool }}" == "poetry" ]; then
+            poetry install
+          elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
+            pipenv install
+          elif [ "${{ inputs.build-tool }}" == "uv" ]; then
+            uv pip install -r requirements.txt
+          fi
+
+      - name: Run tests
+        run: |
+          if [ "${{ inputs.build-tool }}" == "poetry" ]; then
+            poetry run pytest
+          elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
+            pipenv run pytest
+          else
+            pytest
+          fi
+
+      - name: Summary Report (Success)
+        if: ${{ success() }}
+        run: |
+          echo "### Workflow Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Status: Success" >> $GITHUB_STEP_SUMMARY
+
+      - name: Summary Report (Failure)
+        if: ${{ failure() }}
+        run: |
+          echo "### Workflow Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Status: Failed" >> $GITHUB_STEP_SUMMARY
