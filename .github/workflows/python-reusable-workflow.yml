@@ -6,6 +6,7 @@ on:
       python-version:
         description: "Python version required"
         required: true
+        type: string
         default: "3.12"
       build-tool:
         description: "Choose the build tool: pip, poetry, uv or pipenv"
