@@ -47,6 +47,21 @@ jobs:
           path: ${{ env.CACHE_PATH }}
           key: ${{ runner.os }}-${{ inputs.build-tool }}-${{ hashFiles('**/poetry.lock', '**/Pipfile.lock', '**/requirements.txt') }}
 
+      - name: Install build tool
+        run: |
+          case "${{ inputs.build-tool }}" in
+            poetry)
+              curl -sSL https://install.python-poetry.org | python3 -
+              echo "$HOME/.local/bin" >> $GITHUB_PATH
+              ;;
+            pipenv)
+              pip install pipenv
+              ;;
+            uv)
+              pip install uv
+              ;;
+          esac
+
       - name: Install Dependencies
         run: |
           if [ "${{ inputs.build-tool }}" == "pip" ]; then
