@@ -10,5 +10,3 @@ jobs:
     with:
       python-version: "3.11"
       build-tool: "poetry"
-    # ✅ Add `runs-on` here
-    runs-on: ubuntu-latest
