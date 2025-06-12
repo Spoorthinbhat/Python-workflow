@@ -66,10 +66,31 @@ jobs:
         run: |
           if [ "${{ inputs.build-tool }}" == "pip" ]; then
             pip install -r requirements.txt
+
           elif [ "${{ inputs.build-tool }}" == "poetry" ]; then
+            if [ ! -f pyproject.toml ]; then
+              echo "pyproject.toml not found. Creating a default one..."
+              cat <<EOF > pyproject.toml
+[tool.poetry]
+name = "auto-generated-project"
+version = "0.1.0"
+description = "Auto-generated pyproject.toml for CI"
+authors = ["CI Bot <ci@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^${{ inputs.python-version }}"
+requests = "^2.31.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+EOF
+            fi
             poetry install
+
           elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
             pipenv install
+
           elif [ "${{ inputs.build-tool }}" == "uv" ]; then
             uv pip install -r requirements.txt
           fi
