@@ -1,0 +1,12 @@
+name: Call Python Reusable Workflow
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  call-python-workflow:
+    uses: 
+    with: ./.github/workflows/python-reusable-workflow.yml
+      python-version: "3.11"
+      build-tool: "poetry"
