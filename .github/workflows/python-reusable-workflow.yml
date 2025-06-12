@@ -73,24 +73,10 @@ jobs:
 
           elif [ "${{ inputs.build-tool }}" == "poetry" ]; then
             if [ ! -f pyproject.toml ]; then
-              echo "pyproject.toml not found. Creating a default one..."
-              echo '[tool.poetry]' > pyproject.toml
-              echo 'name = "auto-generated-project"' >> pyproject.toml
-              echo 'version = "0.1.0"' >> pyproject.toml
-              echo 'description = "Auto-generated pyproject.toml for CI"' >> pyproject.toml
-              echo 'authors = ["CI Bot <ci@example.com>"]' >> pyproject.toml
-              echo 'package-mode = false' >> pyproject.toml
-              echo '' >> pyproject.toml
-              echo '[tool.poetry.dependencies]' >> pyproject.toml
-              echo 'python = "^3.12"' >> pyproject.toml
-              echo 'requests = "^2.31.0"' >> pyproject.toml
-              echo '' >> pyproject.toml
-              echo '[tool.poetry.group.dev.dependencies]' >> pyproject.toml
-              echo 'pytest = "^7.4.0"' >> pyproject.toml
-              echo '' >> pyproject.toml
-              echo '[build-system]' >> pyproject.toml
-              echo 'requires = ["poetry-core"]' >> pyproject.toml
-              echo 'build-backend = "poetry.core.masonry.api"' >> pyproject.toml
+              poetry init --name "auto-generated-project" \
+                          --dependency "requests" \
+                          --dev-dependency "pytest" \
+                          --no-interaction
             fi
             poetry install --no-root
 
