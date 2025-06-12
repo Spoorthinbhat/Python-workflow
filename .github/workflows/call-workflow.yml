@@ -6,7 +6,7 @@ on:
 
 jobs:
   call-python-workflow:
-    uses: 
-    with: ./.github/workflows/python-reusable-workflow.yml
+    uses: ./.github/workflows/python-reusable-workflow.yml
+    with:
       python-version: "3.11"
       build-tool: "poetry"
