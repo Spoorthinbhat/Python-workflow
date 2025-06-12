@@ -99,7 +99,7 @@ jobs:
       - name: Run tests
         run: |
           if [ "${{ inputs.build-tool }}" == "poetry" ]; then
-            poetry run pytest
+            poetry run pytest tests/
           elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
             pipenv run pytest
           else
