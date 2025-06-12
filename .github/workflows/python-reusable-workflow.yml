@@ -81,6 +81,9 @@ jobs:
               echo 'python = "^3.12"' >> pyproject.toml
               echo 'requests = "^2.31.0"' >> pyproject.toml
               echo '' >> pyproject.toml
+              echo '[tool.poetry.group.dev.dependencies]' >> pyproject.toml
+              echo 'pytest = "^7.4.0"' >> pyproject.toml
+              echo '' >> pyproject.toml
               echo '[build-system]' >> pyproject.toml
               echo 'requires = ["poetry-core"]' >> pyproject.toml
               echo 'build-backend = "poetry.core.masonry.api"' >> pyproject.toml
