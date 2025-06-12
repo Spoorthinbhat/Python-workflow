@@ -70,7 +70,7 @@ jobs:
           elif [ "${{ inputs.build-tool }}" == "poetry" ]; then
             if [ ! -f pyproject.toml ]; then
               echo "pyproject.toml not found. Creating a default one..."
-              cat <<EOF > pyproject.toml
+              cat <<'EOF' > pyproject.toml
 [tool.poetry]
 name = "auto-generated-project"
 version = "0.1.0"
@@ -78,7 +78,7 @@ description = "Auto-generated pyproject.toml for CI"
 authors = ["CI Bot <ci@example.com>"]
 
 [tool.poetry.dependencies]
-python = "^${{ inputs.python-version }}"
+python = "^3.12"
 requests = "^2.31.0"
 
 [build-system]
