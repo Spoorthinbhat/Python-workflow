@@ -69,7 +69,10 @@ jobs:
       - name: Install Dependencies
         run: |
           if [ "${{ inputs.build-tool }}" == "pip" ]; then
-            pip install -r requirements.txt
+            if [! -f requirements.txt ]; then
+              echo "No requirement.txt found"
+            else
+              pip install -r requirements.txt
 
           elif [ "${{ inputs.build-tool }}" == "poetry" ]; then
             if [ ! -f pyproject.toml ]; then
