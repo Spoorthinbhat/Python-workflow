@@ -62,8 +62,7 @@ jobs:
               pip install pipenv
               ;;
             uv)
-              pip install uv
-              uv --version
+              curl -Ls https://astral.sh/uv/install.sh | bash
               ;;
           esac
 
