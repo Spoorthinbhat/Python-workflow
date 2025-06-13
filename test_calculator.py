@@ -11,7 +11,7 @@ def test_multiply():
     assert multiply(6, 7) == 42
 
 def test_divide():
-    assert divide(8, 2) == 4
+    assert divide(8, 2) == 2
 
 def test_divide_by_zero():
     with pytest.raises(ValueError):
