@@ -86,7 +86,12 @@ jobs:
             poetry install --no-root
 
           elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
+             if [ ! -f Pipfile ]; then
+               echo "No Pipfile found. Creating default with pytest"
+               pipenv install --dev pytest
+          else
             pipenv install
+          fi
 
           elif [ "${{ inputs.build-tool }}" == "uv" ]; then
             if [ ! -f "requirements.txt" ]; then
