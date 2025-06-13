@@ -70,7 +70,7 @@ jobs:
         run: |
           if [ "${{ inputs.build-tool }}" == "pip" ]; then
             if [ ! -f requirements.txt ]; then
-              echo "No requirement.txt found"
+              echo "No requirements.txt found"
               exit 1
             else
               pip install -r requirements.txt
