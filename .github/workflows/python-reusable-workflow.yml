@@ -107,6 +107,8 @@ jobs:
             poetry run pytest
           elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
             pipenv run pytest
+          elif [ "${{ inputs.build-tool }}" == "uv" ]; then
+            .venv/bin/pytest
           else
             pytest
           fi
