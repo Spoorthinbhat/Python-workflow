@@ -8,5 +8,5 @@ jobs:
   call-python-workflow:
     uses: ./.github/workflows/python-reusable-workflow.yml
     with:
-      python-version: "3.11"
-      build-tool: "poetry"
+      python-version: "3.9"
+      build-tool: "pip"
