@@ -89,13 +89,15 @@ jobs:
             pipenv install
 
           elif [ "${{ inputs.build-tool }}" == "uv" ]; then
-            if [ ! -d "env" ] && [ ! -d ".venv" ] && [ ! -d "venv" ]; then
-              echo "No virtual environment is set"
+            if [ ! -f "requirements.txt" ]; then
+              echo " requirements.txt not found"
               exit 1
             fi
-            if [ ! -f "requirements.txt" ]; then
-              echo "❌ requirements.txt not found"
-              exit 1
+            if [ ! -d "env" ] && [ ! -d ".venv" ] && [ ! -d "venv" ]; then
+              echo "No virtual environment is set"
+              echo "Setting then virtual environemnt"
+              uv venv .venv
+              uv pip install -r requirements.txt
             fi
             uv pip install -r requirements.txt
           fi
