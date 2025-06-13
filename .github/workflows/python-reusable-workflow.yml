@@ -102,9 +102,8 @@ jobs:
               echo "No virtual environment is set"
               echo "Setting then virtual environemnt"
               uv venv .venv
-              uv pip install -r requirements.txt
             fi
-            uv pip install -r requirements.txt
+            uv pip install -r requirements.tx
           fi
       - name: Run tests
         run: |
