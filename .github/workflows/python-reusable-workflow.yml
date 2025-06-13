@@ -108,13 +108,13 @@ jobs:
       - name: Run tests
         run: |
           if [ "${{ inputs.build-tool }}" == "poetry" ]; then
-            poetry run pytest--junitxml=$REPORT_FILE
+            poetry run pytest --junitxml=$REPORT_FILE
           elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
-            pipenv run pytest--junitxml=$REPORT_FILE
+            pipenv run pytest --junitxml=$REPORT_FILE
           elif [ "${{ inputs.build-tool }}" == "uv" ]; then
-            .venv/bin/pytest--junitxml=$REPORT_FILE
+            .venv/bin/pytest --junitxml=$REPORT_FILE
           else
-            pytest--junitxml=$REPORT_FILE
+            pytest --junitxml=$REPORT_FILE
           fi
       - name: Upload test report
         uses: actions/upload-artifact@v4
