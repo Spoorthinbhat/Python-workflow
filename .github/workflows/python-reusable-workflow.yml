@@ -108,14 +108,19 @@ jobs:
       - name: Run tests
         run: |
           if [ "${{ inputs.build-tool }}" == "poetry" ]; then
-            poetry run pytest
+            poetry run pytest--junitxml=$REPORT_FILE
           elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
-            pipenv run pytest
+            pipenv run pytest--junitxml=$REPORT_FILE
           elif [ "${{ inputs.build-tool }}" == "uv" ]; then
-            .venv/bin/pytest
+            .venv/bin/pytest--junitxml=$REPORT_FILE
           else
-            pytest
+            pytest--junitxml=$REPORT_FILE
           fi
+      - name: Upload test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: test-results.xml
 
       - name: Summary Report (Success)
         if: ${{ success() }}
