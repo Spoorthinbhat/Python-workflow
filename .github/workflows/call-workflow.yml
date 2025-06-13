@@ -9,4 +9,4 @@ jobs:
     uses: ./.github/workflows/python-reusable-workflow.yml
     with:
       python-version: "3.9"
-      build-tool: "pip"
+      build-tool: "uv"
