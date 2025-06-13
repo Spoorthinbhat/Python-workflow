@@ -107,6 +107,7 @@ jobs:
           fi
       - name: Run tests
         run: |
+          REPORT_FILE="test-results.xml"
           if [ "${{ inputs.build-tool }}" == "poetry" ]; then
             poetry run pytest --junitxml=$REPORT_FILE
           elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
