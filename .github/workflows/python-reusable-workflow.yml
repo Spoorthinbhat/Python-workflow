@@ -18,13 +18,30 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
+      - name: Initialize stage status
+        run: |
+          echo "CHECKOUT_STATUS=Skipped" >> $GITHUB_ENV
+          echo "PYTHON_SETUP_STATUS=Skipped" >> $GITHUB_ENV
+          echo "VALIDATION_STATUS=Skipped" >> $GITHUB_ENV
+          echo "CACHE_STATUS=Skipped" >> $GITHUB_ENV
+          echo "INSTALL_STATUS=Skipped" >> $GITHUB_ENV
+          echo "TEST_STATUS=Skipped" >> $GITHUB_ENV
+
       - name: checkout repository
         uses: actions/checkout@v3
+
+        
+      - name: Mark checkout status
+        run: echo "CHECKOUT_STATUS=✅ Success" >> $GITHUB_ENV
+
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: ${{ inputs.python-version }}
+
+      - name: Mark Python setup status
+        run: echo "PYTHON_SETUP_STATUS=✅ Success" >> $GITHUB_ENV
 
       - name: Validate inputs
         run: |
@@ -33,6 +50,10 @@ jobs:
             pip|poetry|pipenv|uv) echo "Valid build tool: ${{ inputs.build-tool }}" ;;
             *) echo "Unsupported build tool: ${{ inputs.build-tool }}" && exit 1 ;;
           esac
+      - name: Mark validate inputs
+        run: echo "VALIDATION_STATUS=✅ Success" >> $GITHUB_ENV
+
+        
 
       - name: Set up cache path
         run: |
@@ -49,6 +70,9 @@ jobs:
         with:
           path: ${{ env.CACHE_PATH }}
           key: ${{ runner.os }}-${{ inputs.build-tool }}-${{ hashFiles('**/poetry.lock', '**/Pipfile.lock', '**/requirements.txt') }}
+
+      - name: Mark cashe status
+        run: echo "CACHE_STATUS=✅ Success" >> $GITHUB_ENV
 
       - name: Install build tool
         run: |
@@ -104,6 +128,10 @@ jobs:
             fi
             uv pip install -r requirements.tx
           fi
+      
+      - name: Mark install status
+        run: echo "INSTALL_STATUS=✅ Success" >> $GITHUB_ENV
+
 
       - name: Run tests
         run: |
@@ -118,43 +146,61 @@ jobs:
             pytest --junitxml=$REPORT_FILE
           fi
 
+      - name: Mark checkout status
+        run: echo "TEST_STATUS=✅ Success" >> $GITHUB_ENV\
+
+
       - name: Upload test report
         uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: test-results.xml
 
-      - name: Summarize test results
+      - name: Stage Summary Report
+        if: always()
         run: |
-          python3 <<EOF >> $GITHUB_STEP_SUMMARY
-          print("### 🧪 Test Summary")
-          print("| Test File | Test Case | Result |")
-          print("|-----------|-----------|--------|")
+          echo "### 🚦 Stage Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Stage | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Checkout | $CHECKOUT_STATUS |" >> $GITHUB_STEP_SUMMARY
+          echo "| Python Setup | $PYTHON_SETUP_STATUS |" >> $GITHUB_STEP_SUMMARY
+          echo "| Input Validation | $VALIDATION_STATUS |" >> $GITHUB_STEP_SUMMARY
+          echo "| Cache | $CACHE_STATUS |" >> $GITHUB_STEP_SUMMARY
+          echo "| Dependency Install | $INSTALL_STATUS |" >> $GITHUB_STEP_SUMMARY
+          echo "| Tests | $TEST_STATUS |" >> $GITHUB_STEP_SUMMARY
 
-          import xml.etree.ElementTree as ET
-          tree = ET.parse("test-results.xml")
-          root = tree.getroot()
 
-          for testcase in root.iter("testcase"):
-             classname = testcase.attrib.get("classname", "Unknown")
-             name = testcase.attrib.get("name", "Unnamed")
-             if testcase.find("failure") is not None:
-               status = "❌ Failed"
-             elif testcase.find("error") is not None:
-               status = "🚨 Error"
-             else:
-              status = "✅ Passed"
-             print(f"| {classname} | {name} | {status} |")
-          EOF
+      # - name: Summarize test results
+      #   run: |
+      #     python3 <<EOF >> $GITHUB_STEP_SUMMARY
+      #     print("### 🧪 Test Summary")
+      #     print("| Test File | Test Case | Result |")
+      #     print("|-----------|-----------|--------|")
 
-      - name: Summary Report (Success)
-        if: ${{ success() }}
-        run: |
-          echo "### Workflow Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- Status: Success" >> $GITHUB_STEP_SUMMARY
+      #     import xml.etree.ElementTree as ET
+      #     tree = ET.parse("test-results.xml")
+      #     root = tree.getroot()
 
-      - name: Summary Report (Failure)
-        if: ${{ failure() }}
-        run: |
-          echo "### Workflow Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- Status: Failed" >> $GITHUB_STEP_SUMMARY
+      #     for testcase in root.iter("testcase"):
+      #        classname = testcase.attrib.get("classname", "Unknown")
+      #        name = testcase.attrib.get("name", "Unnamed")
+      #        if testcase.find("failure") is not None:
+      #          status = "❌ Failed"
+      #        elif testcase.find("error") is not None:
+      #          status = "🚨 Error"
+      #        else:
+      #         status = "✅ Passed"
+      #        print(f"| {classname} | {name} | {status} |")
+      #     EOF
+
+      # - name: Summary Report (Success)
+      #   if: ${{ success() }}
+      #   run: |
+      #     echo "### Workflow Summary" >> $GITHUB_STEP_SUMMARY
+      #     echo "- Status: Success" >> $GITHUB_STEP_SUMMARY
+
+      # - name: Summary Report (Failure)
+      #   if: ${{ failure() }}
+      #   run: |
+      #     echo "### Workflow Summary" >> $GITHUB_STEP_SUMMARY
+      #     echo "- Status: Failed" >> $GITHUB_STEP_SUMMARY
