@@ -89,6 +89,10 @@ jobs:
             pipenv install
 
           elif [ "${{ inputs.build-tool }}" == "uv" ]; then
+            if [ ! -d "env" ] && [ ! -d ".venv" ] && [ ! -d "venv" ]; then
+              echo "No virtual environment is set"
+              exit 1
+            fi
             uv pip install -r requirements.txt
           fi
       - name: Run tests
