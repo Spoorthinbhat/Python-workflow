@@ -63,6 +63,7 @@ jobs:
               ;;
             uv)
               pip install uv
+              uv --version
               ;;
           esac
 
@@ -91,6 +92,10 @@ jobs:
           elif [ "${{ inputs.build-tool }}" == "uv" ]; then
             if [ ! -d "env" ] && [ ! -d ".venv" ] && [ ! -d "venv" ]; then
               echo "No virtual environment is set"
+              exit 1
+            fi
+            if [ ! -f "requirements.txt" ]; then
+              echo "❌ requirements.txt not found"
               exit 1
             fi
             uv pip install -r requirements.txt
