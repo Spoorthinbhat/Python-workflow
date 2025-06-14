@@ -5,12 +5,12 @@ on:
     inputs:
       python-version:
         description: "Python version required"
-        required: true
+        required: false
         type: string
         default: "3.12"
       build-tool:
         description: "Choose the build tool: pip, poetry, uv or pipenv"
-        required: true
+        required: false
         type: string
         default: "pip"
 
@@ -135,7 +135,7 @@ jobs:
 
       - name: Run tests
         run: |
-          REPORT_FILE="test-results.xml"
+          REPORT_FILE="test-results-${{ inputs.build-tool }}.xml"
           if [ "${{ inputs.build-tool }}" == "poetry" ]; then
             poetry run pytest --junitxml=$REPORT_FILE
           elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
@@ -168,39 +168,3 @@ jobs:
           echo "| Cache | $CACHE_STATUS |" >> $GITHUB_STEP_SUMMARY
           echo "| Dependency Install | $INSTALL_STATUS |" >> $GITHUB_STEP_SUMMARY
           echo "| Tests | $TEST_STATUS |" >> $GITHUB_STEP_SUMMARY
-
-
-      # - name: Summarize test results
-      #   run: |
-      #     python3 <<EOF >> $GITHUB_STEP_SUMMARY
-      #     print("### 🧪 Test Summary")
-      #     print("| Test File | Test Case | Result |")
-      #     print("|-----------|-----------|--------|")
-
-      #     import xml.etree.ElementTree as ET
-      #     tree = ET.parse("test-results.xml")
-      #     root = tree.getroot()
-
-      #     for testcase in root.iter("testcase"):
-      #        classname = testcase.attrib.get("classname", "Unknown")
-      #        name = testcase.attrib.get("name", "Unnamed")
-      #        if testcase.find("failure") is not None:
-      #          status = "❌ Failed"
-      #        elif testcase.find("error") is not None:
-      #          status = "🚨 Error"
-      #        else:
-      #         status = "✅ Passed"
-      #        print(f"| {classname} | {name} | {status} |")
-      #     EOF
-
-      # - name: Summary Report (Success)
-      #   if: ${{ success() }}
-      #   run: |
-      #     echo "### Workflow Summary" >> $GITHUB_STEP_SUMMARY
-      #     echo "- Status: Success" >> $GITHUB_STEP_SUMMARY
-
-      # - name: Summary Report (Failure)
-      #   if: ${{ failure() }}
-      #   run: |
-      #     echo "### Workflow Summary" >> $GITHUB_STEP_SUMMARY
-      #     echo "- Status: Failed" >> $GITHUB_STEP_SUMMARY
