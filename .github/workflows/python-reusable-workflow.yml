@@ -134,14 +134,15 @@ jobs:
       - name: Run tests
         run: |
           REPORT_FILE="test-results.xml"
+          TEST_DIR="tests"
           if [ "${{ inputs.build-tool }}" == "poetry" ]; then
-            poetry run pytest --junitxml=$REPORT_FILE
+            poetry run pytest $TEST_DIR --junitxml=$REPORT_FILE
           elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
-            pipenv run pytest --junitxml=$REPORT_FILE
+            pipenv run pytest $TEST_DIR --junitxml=$REPORT_FILE
           elif [ "${{ inputs.build-tool }}" == "uv" ]; then
-            .venv/bin/pytest --junitxml=$REPORT_FILE
+            .venv/bin/pytest $TEST_DIR --junitxml=$REPORT_FILE
           else
-            pytest --junitxml=$REPORT_FILE
+            pytest $TEST_DIR --junitxml=$REPORT_FILE
           fi
 
       - name: Mark checkout status
