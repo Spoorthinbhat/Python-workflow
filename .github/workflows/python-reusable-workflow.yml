@@ -154,7 +154,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-report
-          path: test-results.xml
+          path: test-results-{{ inputs.build-tool }}.xml
 
       - name: Stage Summary Report
         if: always()
