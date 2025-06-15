@@ -30,10 +30,8 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v3
 
-        
       - name: Mark checkout status
         run: echo "CHECKOUT_STATUS=✅ Success" >> $GITHUB_ENV
-
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -52,8 +50,6 @@ jobs:
           esac
       - name: Mark validate inputs
         run: echo "VALIDATION_STATUS=✅ Success" >> $GITHUB_ENV
-
-        
 
       - name: Set up cache path
         run: |
@@ -126,28 +122,26 @@ jobs:
             fi
             uv pip install -r requirements.txt
           fi
-      
+
       - name: Mark install status
         run: echo "INSTALL_STATUS=✅ Success" >> $GITHUB_ENV
-
 
       - name: Run tests
         run: |
           REPORT_FILE="test-results.xml"
           TEST_DIR="tests"
           if [ "${{ inputs.build-tool }}" == "poetry" ]; then
-            poetry run pytest $TEST_DIR --junitxml=$REPORT_FILE
+            PYTHONPATH=. poetry run pytest $TEST_DIR --junitxml=$REPORT_FILE
           elif [ "${{ inputs.build-tool }}" == "pipenv" ]; then
-            pipenv run pytest $TEST_DIR --junitxml=$REPORT_FILE
+            PYTHONPATH=. pipenv run pytest $TEST_DIR --junitxml=$REPORT_FILE
           elif [ "${{ inputs.build-tool }}" == "uv" ]; then
-            .venv/bin/pytest $TEST_DIR --junitxml=$REPORT_FILE
+            PYTHONPATH=. .venv/bin/pytest $TEST_DIR --junitxml=$REPORT_FILE
           else
-            pytest $TEST_DIR --junitxml=$REPORT_FILE
+            PYTHONPATH=. pytest $TEST_DIR --junitxml=$REPORT_FILE
           fi
 
       - name: Mark checkout status
         run: echo "TEST_STATUS=✅ Success" >> $GITHUB_ENV\
-
 
       - name: Upload test report
         uses: actions/upload-artifact@v4
