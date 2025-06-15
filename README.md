@@ -93,11 +93,4 @@ At the end of each run, a summary shows the status of:
 
 ---
 
-## 💡 Perfect For
-
-* 🔁 Reusable GitHub Actions setup
-* 🧪 Any Python project using `pip`, `poetry`, `pipenv`, or `uv`
-* 👥 Teams aiming for clean, automated CI pipelines
-
----
 
