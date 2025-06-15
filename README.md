@@ -1,9 +1,8 @@
-Sure! Here's a clean, copy-paste-ready `README.md` designed for quick readability and a professional look:
 
 ````markdown
 # ⚙️ Python Reusable GitHub Actions Workflow
 
-A flexible and robust reusable workflow to **test and build Python projects** using `pip`, `poetry`, `pipenv`, or `uv`.
+A flexible and robust **reusable workflow** to **test and build Python projects** using `pip`, `poetry`, `pipenv`, or `uv`.
 
 ---
 
@@ -18,12 +17,35 @@ workflow_call:
     python-version: '3.12'
     build-tool: 'poetry'
 ````
+---
 
-> 📝 Replace `your-org/your-repo` with your actual GitHub organization and repository name.
+## 🔧 Inputs
+
+| Name             | Type   | Description                                           | Required | Example    |
+| ---------------- | ------ | ----------------------------------------------------- | -------- | ---------- |
+| `python-version` | string | Python version to set up                              | ✅ Yes    | `"3.12"`   |
+| `build-tool`     | string | Build tool to use: `pip`, `poetry`, `pipenv`, or `uv` | ✅ Yes    | `"poetry"` |
 
 ---
 
-## 📁 Example Project Structure
+## 📁 Project Requirements
+
+Your project **must** include at least one of the following **based on the selected build tool**:
+
+* `requirements.txt` (for `pip`, `uv`)
+* `pyproject.toml` (for `poetry`)
+* `Pipfile` (for `pipenv`)
+
+> ⚠️ If the required file is not found, the workflow will fail with a clear error message.
+
+Also ensure:
+
+* ✅ `pytest` is listed as a dependency
+* ✅ Tests are placed in the `tests/` directory
+
+---
+
+## 🧪 Example Project Structure
 
 ```
 .
@@ -35,18 +57,13 @@ workflow_call:
 │   └── ...
 ```
 
-✅ Ensure:
-
-* `pytest` is listed in the appropriate dependency file
-* Your test files are inside the `tests/` directory
-
 ---
 
 ## 📦 Dependency Caching
 
-Speeds up installation by caching based on the selected build tool:
+To speed up runs, dependencies are cached:
 
-| Build Tool | Cache Path          |
+| Build Tool | Cache Location      |
 | ---------- | ------------------- |
 | `pip`      | `~/.cache/pip`      |
 | `poetry`   | `~/.cache/pypoetry` |
@@ -57,36 +74,30 @@ Speeds up installation by caching based on the selected build tool:
 
 ## 📄 Workflow Summary
 
-A step-by-step summary is printed after each run:
+At the end of each run, a summary shows the status of:
 
 * ✅ Checkout
 * 🐍 Python Setup
-* 🔎 Input Validation
+* 🔍 Input Validation
 * 💾 Cache
-* 📥 Dependency Install
+* 📥 Dependency Installation
 * 🧪 Test Execution
 
 ---
 
 ## 🧩 Notes
 
-* Installs the selected build tool automatically if missing
-* Fails with a clear message if no dependency file is found
-* For `uv`, creates `.venv` if no virtual environment exists
+* Automatically installs the specified build tool if not available
+* For `uv`, creates `.venv` if it doesn't already exist
+* Designed for consistent and reusable Python CI across projects
 
 ---
 
-## 💡 Ideal For
+## 💡 Perfect For
 
-✅ CI setups across multiple Python projects
-✅ Projects using any major Python build tool
-✅ Teams aiming for consistent, reusable workflows
+* 🔁 Reusable GitHub Actions setup
+* 🧪 Any Python project using `pip`, `poetry`, `pipenv`, or `uv`
+* 👥 Teams aiming for clean, automated CI pipelines
 
 ---
 
-Enjoy fast and reliable Python CI 🚀
-
-```
-
-Let me know if you want to include badges, links, or visuals too!
-```
