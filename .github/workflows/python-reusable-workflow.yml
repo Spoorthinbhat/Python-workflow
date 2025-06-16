@@ -58,6 +58,7 @@ jobs:
         run: echo "VALIDATION_STATUS=✅ Success" >> $GITHUB_ENV
 
       - name: Set up cache path
+        shell: bash
         run: |
           echo "Setting up cache files"
           case "${{ inputs.build-tool }}" in
@@ -77,6 +78,7 @@ jobs:
         run: echo "CACHE_STATUS=✅ Success" >> $GITHUB_ENV
 
       - name: Install build tool
+        shell: bash
         run: |
           case "${{ inputs.build-tool }}" in
             poetry)
@@ -92,6 +94,7 @@ jobs:
           esac
 
       - name: Install Dependencies
+        shell: bash
         run: |
           if [ "${{ inputs.build-tool }}" == "pip" ]; then
             if [ ! -f requirements.txt ]; then
@@ -133,6 +136,7 @@ jobs:
         run: echo "INSTALL_STATUS=✅ Success" >> $GITHUB_ENV
 
       - name: Run tests
+        shell: bash
         run: |
           REPORT_FILE="test-results.xml"
           TEST_DIR="tests"
