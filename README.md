@@ -1,6 +1,7 @@
+Here’s the **fully corrected and properly rendered** `README.md` content with accurate markdown formatting, fixed code blocks, consistent spacing, and good readability:
 
 ````markdown
-# ⚙️ Python Reusable GitHub Actions Workflow
+# Python Reusable GitHub Actions Workflow
 
 A flexible and robust **reusable workflow** to **test and build Python projects** using `pip`, `poetry`, `pipenv`, or `uv`.
 
@@ -11,12 +12,14 @@ A flexible and robust **reusable workflow** to **test and build Python projects*
 In your GitHub workflow, call this reusable workflow:
 
 ```yaml
-workflow_call:
-  uses: your-org/your-repo/.github/workflows/python-reusable.yml@main
-  with:
-    python-version: '3.12'
-    build-tool: 'poetry'
+jobs:
+  build:
+    uses: your-org/your-repo/.github/workflows/python-reusable.yml@main
+    with:
+      python-version: '3.12'
+      build-tool: 'poetry'
 ````
+
 ---
 
 ## 🔧 Inputs
@@ -30,22 +33,22 @@ workflow_call:
 
 ## 📁 Project Requirements
 
-Your project **must** include at least one of the following **based on the selected build tool**:
+Your project **must** include at least one of the following (based on the selected build tool):
 
-* `requirements.txt` (for `pip`, `uv`)
-* `pyproject.toml` (for `poetry`)
-* `Pipfile` (for `pipenv`)
+* `requirements.txt` — for `pip`, `uv`
+* `pyproject.toml` — for `poetry`
+* `Pipfile` — for `pipenv`
 
-> ⚠️ If the required file is not found, the workflow will fail with a clear error message.
+> 🛑 If the required file is not found, the workflow will fail with a clear error message.
 
-Also ensure:
+Additionally:
 
-* ✅ `pytest` is listed as a dependency
-* ✅ Tests are placed in the `tests/` directory
+* `pytest` should be listed as a dependency.
+* Tests should be located in a `tests/` directory.
 
 ---
 
-## 🧪 Example Project Structure
+## 📦 Example Project Structure
 
 ```
 .
@@ -59,9 +62,9 @@ Also ensure:
 
 ---
 
-## 📦 Dependency Caching
+## ⚡ Dependency Caching
 
-To speed up runs, dependencies are cached:
+To speed up workflow runs, dependencies are cached:
 
 | Build Tool | Cache Location      |
 | ---------- | ------------------- |
@@ -72,25 +75,29 @@ To speed up runs, dependencies are cached:
 
 ---
 
-## 📄 Workflow Summary
+## 📊 Workflow Summary
 
 At the end of each run, a summary shows the status of:
 
 * ✅ Checkout
 * 🐍 Python Setup
-* 🔍 Input Validation
+* 📥 Input Validation
 * 💾 Cache
-* 📥 Dependency Installation
+* 📦 Dependency Installation
 * 🧪 Test Execution
 
 ---
 
-## 🧩 Notes
+## 📝 Notes
 
-* Automatically installs the specified build tool if not available
-* For `uv`, creates `.venv` if it doesn't already exist
-* Designed for consistent and reusable Python CI across projects
+* Automatically installs the selected build tool if it's not already available.
+* For `uv`, a `.venv/` is created if one doesn't exist.
 
 ---
 
+Feel free to fork, contribute, or adapt this for your team's needs!
 
+```
+
+✅ You can now directly copy this into your `README.md`. Let me know if you want a badge, example workflow, or emoji-free version.
+```
