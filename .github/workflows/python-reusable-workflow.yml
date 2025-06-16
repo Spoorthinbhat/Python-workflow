@@ -65,7 +65,11 @@ jobs:
             pipenv) echo "CACHE_PATH=~/.cache/pipenv" >> "$GITHUB_ENV" ;;
             uv) echo "CACHE_PATH=~/.cache/uv" >> "$GITHUB_ENV" ;;
           esac
-
+      - name: Ensure cache path exists
+        shell: bash
+        run: |
+         mkdir -p "${{ env.CACHE_PATH }}"
+         
       - name: Cache dependencies
         uses: actions/cache@v4
         with:
