@@ -152,7 +152,7 @@ jobs:
       - name: Stage Summary Report
         if: always()
         run: |
-          echo "### 🚦 Stage Summary" >> $GITHUB_STEP_SUMMARY
+          echo "### Stage Summary" >> $GITHUB_STEP_SUMMARY
           echo "| Stage | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
           echo "| Checkout | $CHECKOUT_STATUS |" >> $GITHUB_STEP_SUMMARY
