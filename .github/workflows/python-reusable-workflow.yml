@@ -30,6 +30,9 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v3
 
+      - name: Configure bash terminal
+        shell: bash
+
       - name: Mark checkout status
         run: echo "CHECKOUT_STATUS=✅ Success" >> $GITHUB_ENV
 
