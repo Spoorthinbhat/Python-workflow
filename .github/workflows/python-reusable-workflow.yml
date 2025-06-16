@@ -29,12 +29,7 @@ jobs:
 
       - name: checkout repository
         uses: actions/checkout@v3
-
-      - name: Configure bash terminal
-        shell: bash
-        run: echo "Set up successful"
         
-
       - name: Mark checkout status
         shell: bash
         run: echo "CHECKOUT_STATUS=✅ Success" >> $GITHUB_ENV
@@ -71,6 +66,7 @@ jobs:
           esac
 
       - name: Cache dependencies
+        shell: bash
         uses: actions/cache@v4
         with:
           path: ${{ env.CACHE_PATH }}
