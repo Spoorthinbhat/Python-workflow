@@ -151,6 +151,7 @@ jobs:
           fi
 
       - name: Mark checkout status
+        shell: bash
         run: echo "TEST_STATUS=✅ Success" >> $GITHUB_ENV\
 
       - name: Upload test report
@@ -160,6 +161,7 @@ jobs:
           path: test-results.xml
 
       - name: Stage Summary Report
+        shell: bash
         if: always()
         run: |
           echo "### Stage Summary" >> $GITHUB_STEP_SUMMARY
