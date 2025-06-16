@@ -17,9 +17,9 @@ on:
 jobs:
   setup:
     runs-on: windows-latest
-    shell: bash
     steps:
       - name: Initialize stage status
+        shell: bash
         run: |
           echo "CHECKOUT_STATUS=Skipped" >> $GITHUB_ENV
           echo "PYTHON_SETUP_STATUS=Skipped" >> $GITHUB_ENV
