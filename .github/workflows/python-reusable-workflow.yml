@@ -36,6 +36,7 @@ jobs:
         
 
       - name: Mark checkout status
+        shell: bash
         run: echo "CHECKOUT_STATUS=✅ Success" >> $GITHUB_ENV
 
       - name: Set up Python
@@ -44,6 +45,7 @@ jobs:
           python-version: ${{ inputs.python-version }}
 
       - name: Mark Python setup status
+        shell: bash
         run: echo "PYTHON_SETUP_STATUS=✅ Success" >> $GITHUB_ENV
 
       - name: Validate inputs        
@@ -75,6 +77,7 @@ jobs:
           key: ${{ runner.os }}-${{ inputs.build-tool }}-${{ hashFiles('**/poetry.lock', '**/Pipfile.lock', '**/requirements.txt') }}
 
       - name: Mark cashe status
+        shell: bash
         run: echo "CACHE_STATUS=✅ Success" >> $GITHUB_ENV
 
       - name: Install build tool
