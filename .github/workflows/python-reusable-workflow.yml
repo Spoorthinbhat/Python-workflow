@@ -52,6 +52,7 @@ jobs:
             *) echo "Unsupported build tool: ${{ inputs.build-tool }}" && exit 1 ;;
           esac
       - name: Mark validate inputs
+        shell: bash
         run: echo "VALIDATION_STATUS=✅ Success" >> $GITHUB_ENV
 
       - name: Set up cache path
@@ -66,7 +67,6 @@ jobs:
           esac
 
       - name: Cache dependencies
-        shell: bash
         uses: actions/cache@v4
         with:
           path: ${{ env.CACHE_PATH }}
