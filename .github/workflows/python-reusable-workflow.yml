@@ -46,7 +46,8 @@ jobs:
       - name: Mark Python setup status
         run: echo "PYTHON_SETUP_STATUS=✅ Success" >> $GITHUB_ENV
 
-      - name: Validate inputs
+      - name: Validate inputs        
+        shell: bash
         run: |
           echo "Validating inputs..."
           case "${{ inputs.build-tool }}" in
