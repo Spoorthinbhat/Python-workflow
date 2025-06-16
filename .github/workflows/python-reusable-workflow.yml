@@ -17,6 +17,7 @@ on:
 jobs:
   setup:
     runs-on: windows-latest
+    shell: bash
     steps:
       - name: Initialize stage status
         run: |
@@ -136,6 +137,7 @@ jobs:
           fi
 
       - name: Mark install status
+        shell: bash
         run: echo "INSTALL_STATUS=✅ Success" >> $GITHUB_ENV
 
       - name: Run tests
