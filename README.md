@@ -1,6 +1,3 @@
-Here’s the **fully corrected and properly rendered** `README.md` content with accurate markdown formatting, fixed code blocks, consistent spacing, and good readability:
-
-````markdown
 # Python Reusable GitHub Actions Workflow
 
 A flexible and robust **reusable workflow** to **test and build Python projects** using `pip`, `poetry`, `pipenv`, or `uv`.
@@ -18,16 +15,16 @@ jobs:
     with:
       python-version: '3.12'
       build-tool: 'poetry'
-````
+```
 
 ---
 
 ## 🔧 Inputs
 
 | Name             | Type   | Description                                           | Required | Example    |
-| ---------------- | ------ | ----------------------------------------------------- | -------- | ---------- |
-| `python-version` | string | Python version to set up                              | ✅ Yes    | `"3.12"`   |
-| `build-tool`     | string | Build tool to use: `pip`, `poetry`, `pipenv`, or `uv` | ✅ Yes    | `"poetry"` |
+|------------------|--------|-------------------------------------------------------|----------|------------|
+| `python-version` | string | Python version to set up                              | ✅ Yes   | `"3.12"`   |
+| `build-tool`     | string | Build tool to use: `pip`, `poetry`, `pipenv`, or `uv` | ✅ Yes   | `"poetry"` |
 
 ---
 
@@ -35,16 +32,16 @@ jobs:
 
 Your project **must** include at least one of the following (based on the selected build tool):
 
-* `requirements.txt` — for `pip`, `uv`
-* `pyproject.toml` — for `poetry`
-* `Pipfile` — for `pipenv`
+- `requirements.txt` — for `pip`, `uv`
+- `pyproject.toml` — for `poetry`
+- `Pipfile` — for `pipenv`
 
 > 🛑 If the required file is not found, the workflow will fail with a clear error message.
 
 Additionally:
 
-* `pytest` should be listed as a dependency.
-* Tests should be located in a `tests/` directory.
+- `pytest` should be listed as a dependency.
+- Tests should be located in a `tests/` directory.
 
 ---
 
@@ -67,7 +64,7 @@ Additionally:
 To speed up workflow runs, dependencies are cached:
 
 | Build Tool | Cache Location      |
-| ---------- | ------------------- |
+|------------|---------------------|
 | `pip`      | `~/.cache/pip`      |
 | `poetry`   | `~/.cache/pypoetry` |
 | `pipenv`   | `~/.cache/pipenv`   |
@@ -79,25 +76,20 @@ To speed up workflow runs, dependencies are cached:
 
 At the end of each run, a summary shows the status of:
 
-* ✅ Checkout
-* 🐍 Python Setup
-* 📥 Input Validation
-* 💾 Cache
-* 📦 Dependency Installation
-* 🧪 Test Execution
+- ✅ Checkout  
+- 🐍 Python Setup  
+- 📥 Input Validation  
+- 💾 Cache  
+- 📦 Dependency Installation  
+- 🧪 Test Execution
 
 ---
 
 ## 📝 Notes
 
-* Automatically installs the selected build tool if it's not already available.
-* For `uv`, a `.venv/` is created if one doesn't exist.
+- Automatically installs the selected build tool if it's not already available.
+- For `uv`, a `.venv/` is created if one doesn't exist.
 
 ---
 
 Feel free to fork, contribute, or adapt this for your team's needs!
-
-```
-
-✅ You can now directly copy this into your `README.md`. Let me know if you want a badge, example workflow, or emoji-free version.
-```
