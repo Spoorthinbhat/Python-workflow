@@ -32,6 +32,8 @@ jobs:
 
       - name: Configure bash terminal
         shell: bash
+        run: echo "Set up successful"
+        
 
       - name: Mark checkout status
         run: echo "CHECKOUT_STATUS=✅ Success" >> $GITHUB_ENV
